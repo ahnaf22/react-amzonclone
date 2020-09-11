@@ -3,10 +3,23 @@ import "./cssfiles/subtotal.css";
 import CurrencyFormat from "react-currency-format";
 import { useStateValue } from './StateProvider';
 import { getBasketTotal } from './reducer';
+import { useHistory } from 'react-router-dom';
 
 function Subtotal() {
 
-    const [{ basket }] = useStateValue();
+    // user going to checkout  page using browser history
+    const history = useHistory();
+    const [{ basket, user }] = useStateValue();
+
+    const handleCheckoutPage = () => {
+        if (user) {
+            history.push('/payment');
+        }
+        else {
+            alert('You need to login to proceed checkout');
+            history.push('/login', { from: 'checkoutpath' });
+        }
+    }
 
     return (
         <div className="subtotal">
@@ -31,7 +44,7 @@ function Subtotal() {
                 prefix={"$"}
 
             />
-            <button>Proceed to checkout</button>
+            <button onClick={handleCheckoutPage}>Proceed to checkout</button>
 
         </div>
     )

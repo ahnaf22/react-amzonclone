@@ -2,11 +2,15 @@ import React, { useState } from 'react'
 import "./cssfiles/login.css"
 import { Link, useHistory } from 'react-router-dom'
 import { auth } from './firebase';
+import { useStateValue } from './StateProvider';
 
 
 function Login() {
 
     const history = useHistory(); //use to redirect to a page after some work
+    const prevpath = history.location.state?.from;
+    //console.log("previous path: ", prevpath);
+    const [state, dispatch] = useStateValue();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -14,7 +18,18 @@ function Login() {
         e.preventDefault();
 
         auth.signInWithEmailAndPassword(email, password).then(auth => {
-            history.push("/")
+            if (auth) {
+                dispatch({
+                    type: "SET_USER",
+                    user: auth,
+                });
+
+                if (prevpath === 'checkoutpath') {
+                    history.push("/payment");
+                } else {
+                    history.push("/");
+                }
+            }
         }).catch(error => alert(error.message));
 
     }
@@ -25,7 +40,16 @@ function Login() {
             //console.log(auth);
             //if user is authenticated redirect to home page
             if (auth) {
-                history.push("/");
+                dispatch({
+                    type: "SET_USER",
+                    user: auth,
+                });
+                if (prevpath === 'checkoutpath') {
+                    history.push("/payment");
+                } else {
+                    history.push("/");
+                }
+
             }
         }).catch(error => alert(error.message));
     }
