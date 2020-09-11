@@ -28,3 +28,18 @@
 .payment_address, .payment_items, .payment_details {
     flex: 0.8;
 }
+
+.payment_details>form {
+    max-width: 400px;
+}
+
+.payment_details>form>div>button {
+    background-color: #f0c14b;
+    border: 1px solid;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 30px;
+    width: 100%;
+    border-color: #a88734 #9c7e31 #846a29;
+    color: #111;
+}

@@ -7,7 +7,8 @@ import FlipMove from 'react-flip-move';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import CurrencyFormat from "react-currency-format";
 import { getBasketTotal } from './reducer';
-import axios from './axios'
+import axios from './axios';
+import { db } from './firebase';
 
 
 
@@ -51,6 +52,7 @@ function Payment() {
 
 
     //console.log("the secret code cs: ", clientSecret);
+    //console.log(user.uid);
 
     const handleSubmit = async (e) => {
         // stripe works here
@@ -63,10 +65,27 @@ function Payment() {
                 card: elements.getElement(CardElement)
             }
         }).then(({ paymentIntent }) => {
+
+            // store order to firebase store
+            db
+                .collection('users')
+                .doc(user?.uid)
+                .collection('orders')
+                .doc(paymentIntent.id)
+                .set({
+                    basket: basket,
+                    amount: paymentIntent.amount / 100,
+                    created: paymentIntent.created,
+                });
+
+
             // payment intent is like payment confirmation
             setSucceeded(true);
             setError(null);
             setProcessing(false);
+
+
+
             // lets empty the basket 
             dispatch({
                 type: "EMPTY_BASKET"
