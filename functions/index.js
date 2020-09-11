@@ -22,8 +22,25 @@ app.use(express.json());
 app.get('/', (request, response) => response.status(200).send(('hello world')));
 // here get is the method,request is the incoming data, response is the data that we send with some codes
 //just like laravel (request and response) works justl like a controller MVC 
+// some custom routes for payment and other works
+
+app.post('/payments/create', async (request, response) => {
+    const total = request.query.total;
+    console.log(total);
+
+    const paymentIntent = await stripe.paymentIntents.create({
+        amount: total,
+        currency: "usd",
+    });
+
+    response.status(201).send({
+        clientSecret: paymentIntent.client_secret,
+    })
+});
+
 
 // ~listen command
 exports.api = functions.https.onRequest(app);
+// exports response throught api var here
 
 

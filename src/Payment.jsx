@@ -50,7 +50,7 @@ function Payment() {
     }, [basket]);
 
 
-
+    //console.log("the secret code cs: ", clientSecret);
 
     const handleSubmit = async (e) => {
         // stripe works here
@@ -67,6 +67,11 @@ function Payment() {
             setSucceeded(true);
             setError(null);
             setProcessing(false);
+            // lets empty the basket 
+            dispatch({
+                type: "EMPTY_BASKET"
+            });
+
             history.replace('/orders');
         });
     }

@@ -57,9 +57,16 @@ const reducer = (state, action) => {
                 ...state,
                 user: action.user,
             }
+        case 'EMPTY_BASKET':
+            localStorage.setItem('basket', []);
+            return {
+                ...state,
+                basket: [],
+            }
 
         default:
             return state;
+
 
     }
 
