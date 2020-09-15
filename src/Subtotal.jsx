@@ -13,11 +13,23 @@ function Subtotal() {
 
     const handleCheckoutPage = () => {
         if (user) {
-            history.push('/payment');
+            if (basket.length <= 0) {
+                alert("please add something to basket first!")
+            }
+            else {
+                history.push('/payment');
+            }
+
         }
         else {
-            alert('You need to login to proceed checkout');
-            history.push('/login', { from: 'checkoutpath' });
+            if (basket.length <= 0) {
+                alert("please add something to basket first!")
+            }
+            else {
+                alert('You need to login to proceed checkout');
+                history.push('/login', { from: 'checkoutpath' });
+            }
+
         }
     }
 

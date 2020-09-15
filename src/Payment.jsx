@@ -33,7 +33,6 @@ function Payment() {
 
         // generate special secret stripe code to allow user to transaction
         //everytime basket changes,the money gets updated, so we need new secret key/token
-
         const getClientSecret = async () => {
             const response = await axios({
                 method: 'post',
@@ -46,7 +45,12 @@ function Payment() {
         }
 
         // this is how to call aync function in useEffect
-        getClientSecret();
+        // lets check if the basket has something otherwise there will be no request
+        if (basket.length > 0) {
+            console.log("lets have client secret!");
+            getClientSecret();
+        }
+
 
     }, [basket]);
 
@@ -173,12 +177,14 @@ function Payment() {
                                     prefix={"$"}
 
                                 />
+                                {user && (basket.length > 0) &&
+                                    <button disabled={processing || disabled || succeeded}>
+                                        <span>
+                                            {processing ? <p>processing</p> : "Buy now"}
+                                        </span>
+                                    </button>
+                                }
 
-                                <button disabled={processing || disabled || succeeded}>
-                                    <span>
-                                        {processing ? <p>processing</p> : "Buy now"}
-                                    </span>
-                                </button>
                             </div>
                             {/* errors for the payment */}
                             {error && <div>{error}</div>}

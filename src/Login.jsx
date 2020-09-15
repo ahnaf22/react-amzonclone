@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./cssfiles/login.css"
 import { Link, useHistory } from 'react-router-dom'
 import { auth } from './firebase';
@@ -10,9 +10,19 @@ function Login() {
     const history = useHistory(); //use to redirect to a page after some work
     const prevpath = history.location.state?.from;
     //console.log("previous path: ", prevpath);
-    const [state, dispatch] = useStateValue();
+    const [{ user }, dispatch] = useStateValue();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    useEffect(() => {
+        if (user) {
+            if (prevpath === 'checkoutpath') {
+                history.push("/payment");
+            } else {
+                history.replace("/");
+            }
+        }
+    }, [user])
 
     const signIn = (e) => {
         e.preventDefault();
@@ -27,7 +37,7 @@ function Login() {
                 if (prevpath === 'checkoutpath') {
                     history.push("/payment");
                 } else {
-                    history.push("/");
+                    history.replace("/");
                 }
             }
         }).catch(error => alert(error.message));
