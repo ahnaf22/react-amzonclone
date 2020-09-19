@@ -26,3 +26,31 @@
     font-size: 17px;
     font-weight: 800;
 }
+
+/* media queries */
+
+@media only screen and (max-width: 600px) {
+    .checkoutProduct {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        justify-content: center;
+    }
+    .checkoutProduct_info {
+        padding: 10px;
+    }
+    .checkoutProduct_image {
+        object-fit: contain;
+        width: 180px;
+        height: 180px;
+    }
+}
+
+@media only screen and (max-width: 420px) {
+    .checkoutProduct_info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}

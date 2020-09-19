@@ -49,3 +49,9 @@
     display: flex;
     color: #f0c14b;
 }
+
+@media only screen and (max-width: 480px) {
+    .product_info {
+        width: 90%;
+    }
+}

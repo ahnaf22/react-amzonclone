@@ -20,3 +20,15 @@
     /* masking image to show and hide some portions */
     mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
 }
+
+@media only screen and (max-width: 760px) {
+    .home_image {
+        margin-bottom: -60px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .home_row {
+        flex-wrap: wrap;
+    }
+}
